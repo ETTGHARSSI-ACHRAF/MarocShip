@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const generator = require("generate-password");
 const jsonwebtoken =require('jsonwebtoken');
-
+const logger = require('../logger/logger');
 
 
 
@@ -179,6 +179,9 @@ const prandreCommande = async(req,res)=>{
       {$push:{livraisons:req.body.id_livaraison}}
     );
     const livraison = await Livraison.updateOne({_id:req.body.id_livaraison},{statu:'non livrer'})
+    const getLivraison = await Livraison.find({_id:req.body.id_livaraison})
+    console.log(getLivraison);
+    logger.info(`une livraison de ${getLivraison[0].poid}kg va être faite le ${new Date().toISOString().slice(0, 10)} de la ville de ${getLivraison[0].ville_d} vers la ville ${getLivraison[0].ville_a}: Chauffeur ${token.result.nom_chauffeur} ${token.result.prenom_chauffeur}`)
     res.status(200).json({
       success: 1,
       chauffeur,

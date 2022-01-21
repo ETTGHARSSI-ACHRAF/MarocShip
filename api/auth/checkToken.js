@@ -75,7 +75,7 @@ const jwt = require("jsonwebtoken");
            const role = req.cookies.role;
    
           if (token && role == 'chauffeur') {  
-               const verified = jwt.verify(token,process.env.SECRET_KEY_RESPONSABLE_LIVRAISON)
+               const verified = jwt.verify(token,process.env.SECRET_KEY_CHAUFFEUR)
               //  req.user = verified.user
                next();
            } else {

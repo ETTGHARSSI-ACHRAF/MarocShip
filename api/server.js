@@ -2,10 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser')
-app.use(express.urlencoded({extended:false}));
+const logger = require('./logger/logger');
 
+app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
+
 // pathe of manager
 const manager = require('./routers/managerApi');
 app.use('/managerApi',manager);
@@ -50,4 +52,4 @@ mongoose.connect(process.env.DATABASE_URL,{
 
 // start server with any port or 4000(cmd:npm run start)
 const port = process.env.PORT || 4000;
-app.listen(port,()=>{console.log(`http://localhost:${port}`);});
+app.listen(port,()=>{logger.info(`started on port ', ${port}`)});
